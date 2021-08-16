@@ -1,0 +1,11 @@
+name: NewBedWars
+version: ${project.version}
+main: net.kunmc.lab.newbedwars.NewBedWars
+api-version: 1.16
+authors: [ chanmo7na ]
+description: 新ベッドウォーズ
+commands:
+  nbw:
+    description: NewBedWars Main Command
+    permission: op
+    permission-message: 権限がありません
