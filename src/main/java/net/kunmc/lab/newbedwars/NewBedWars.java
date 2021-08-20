@@ -5,14 +5,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.*;
 import java.util.Objects;
 
 public final class NewBedWars extends JavaPlugin {
 
-    private ScoreboardManager manager;
-    private Scoreboard board;
-    private Objective objective;
+    private NBWScoreboard board;
     private PlayerEventListener listener;
 
     @Override
@@ -29,24 +26,19 @@ public final class NewBedWars extends JavaPlugin {
 
     @SuppressWarnings("deprecation")
     public void start() {
-        manager = Bukkit.getScoreboardManager();
-        board = manager.getNewScoreboard();
-        objective = board.registerNewObjective("bedCount", "dummy");
-        objective.setDisplayName(Const.BED_COUNT);
-        objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        board = new NBWScoreboard();
 
-        listener = new PlayerEventListener(this, objective);
+        listener = new PlayerEventListener(this, board);
         getServer().getPluginManager().registerEvents(listener, this);
 
         Bukkit.getOnlinePlayers().forEach(this::initPlayer);
     }
+
     public void stop() {
         HandlerList.unregisterAll(listener);
         listener = null;
 
-        objective = null;
         board = null;
-        manager =null;
     }
 
     private void initPlayer(Player player) {
@@ -60,9 +52,8 @@ public final class NewBedWars extends JavaPlugin {
                 count += item.getAmount();
             }
         }
-        Score score = objective.getScore(player.getName());
-        score.setScore(count);
-
-        player.setScoreboard(board);
+        board.setBedCountScore(player, count);
+        board.setAliveTurnScore(player, 0);
+        board.setShowPlayer(player);
     }
 }

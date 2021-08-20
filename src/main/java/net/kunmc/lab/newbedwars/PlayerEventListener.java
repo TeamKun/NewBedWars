@@ -15,16 +15,14 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
 
 public class PlayerEventListener implements Listener {
     private final NewBedWars plugin;
-    private final Objective objective;
+    private final NBWScoreboard scoreboard;
 
-    public PlayerEventListener(NewBedWars plugin, Objective objective) {
+    public PlayerEventListener(NewBedWars plugin, NBWScoreboard scoreboard) {
         this.plugin = plugin;
-        this.objective = objective;
+        this.scoreboard = scoreboard;
     }
 
     @EventHandler
@@ -37,8 +35,7 @@ public class PlayerEventListener implements Listener {
         if(Config.getInstance().nonCraftableItems(plugin).stream().noneMatch(i->i.equals(material))) {
             return;
         }
-        Score score = objective.getScore(player.getName());
-        score.setScore(score.getScore() + e.getItem().getItemStack().getAmount());
+        scoreboard.addBedCountScore(player, e.getItem().getItemStack().getAmount());
     }
 
     @EventHandler
@@ -48,8 +45,7 @@ public class PlayerEventListener implements Listener {
         if(Config.getInstance().nonCraftableItems(plugin).stream().noneMatch(i->i.equals(material))) {
             return;
         }
-        Score score = objective.getScore(player.getName());
-        score.setScore(score.getScore() - e.getItemDrop().getItemStack().getAmount());
+        scoreboard.minusBedCountScore(player, e.getItemDrop().getItemStack().getAmount());
     }
 
     @SuppressWarnings("deprecation")
@@ -92,8 +88,7 @@ public class PlayerEventListener implements Listener {
                         count += item.getAmount();
                     }
                 }
-                Score score = objective.getScore(player.getName());
-                score.setScore(count);
+                scoreboard.setBedCountScore(player, count);
             }
         }.runTaskLater(plugin, 1);
     }

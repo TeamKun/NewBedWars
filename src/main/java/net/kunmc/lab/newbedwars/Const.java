@@ -17,8 +17,4 @@ public class Const {
     public final static String INFO = "info";
     public final static String CONF = "conf";
     public final static String SET = "set";
-
-    // Scoreboard
-    public final static String BED_COUNT = "個のベッドを所有";
-
 }
