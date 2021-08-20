@@ -34,7 +34,7 @@ public class PlayerEventListener implements Listener {
             return;
         }
         Score score = objective.getScore(player.getName());
-        score.setScore(score.getScore() + 1);
+        score.setScore(score.getScore() + e.getItem().getItemStack().getAmount());
     }
 
     @EventHandler
@@ -45,7 +45,7 @@ public class PlayerEventListener implements Listener {
             return;
         }
         Score score = objective.getScore(player.getName());
-        score.setScore(score.getScore() - 1);
+        score.setScore(score.getScore() - e.getItemDrop().getItemStack().getAmount());
     }
 
     @SuppressWarnings("deprecation")
