@@ -7,8 +7,9 @@ public class Const {
     public final static String DAYTRIK = "daytrik";
     public final static String COUNTDOWN = "countdown";
     public final static String DISTRIBUTION = "distribution";
-    public final static String ISCRAFTABLE = "iscraftable";
+    public final static String NONCRAFTABLE = "noncraftable";
     public final static String RESPAWN = "respawn";
+    public final static String NONBREAKABLE = "nonbreakable";
 
     // command
     public final static String START = "start";

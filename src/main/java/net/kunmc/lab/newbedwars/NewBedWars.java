@@ -6,6 +6,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.*;
+import java.util.Objects;
 
 public final class NewBedWars extends JavaPlugin {
 
@@ -18,7 +19,7 @@ public final class NewBedWars extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         NewBedWarsExecutor executor = new NewBedWarsExecutor(this);
-        getCommand(Const.MAIN_COMMAND).setExecutor(executor);
+        Objects.requireNonNull(getCommand(Const.MAIN_COMMAND)).setExecutor(executor);
     }
 
     @Override
@@ -26,6 +27,7 @@ public final class NewBedWars extends JavaPlugin {
         // Plugin shutdown logic
     }
 
+    @SuppressWarnings("deprecation")
     public void start() {
         manager = Bukkit.getScoreboardManager();
         board = manager.getNewScoreboard();
@@ -54,7 +56,7 @@ public final class NewBedWars extends JavaPlugin {
             if(null == item) {
                 continue;
             }
-            if(Config.getInstance().isNotCraftableItems(this).contains(item.getType()) ){
+            if(Config.getInstance().nonCraftableItems(this).contains(item.getType()) ){
                 count += item.getAmount();
             }
         }

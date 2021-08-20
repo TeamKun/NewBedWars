@@ -2,7 +2,7 @@
 daytrik: 1200
 countdown: 5
 distribution: 1
-isnotcraftable:
+noncraftable:
     - WHITE_BED
     - ORANGE_BED
     - MAGENTA_BED
@@ -19,4 +19,6 @@ isnotcraftable:
     - GREEN_BED
     - RED_BED
     - BLACK_BED
+nonbreakable:
+    - CHEST
 respawn: false

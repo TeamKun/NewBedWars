@@ -40,7 +40,8 @@ public class NewBedWarsExecutor implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        sender.sendMessage(nbwCommand.execute(args));
+        nbwCommand.execute(args, ((Player) sender).getPlayer());
+        sender.sendMessage(nbwCommand.message());
         return true;
     }
 

@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -29,7 +30,7 @@ public class PlayerEventListener implements Listener {
         }
         Player player = (Player)e.getEntity();
         Material material = e.getItem().getItemStack().getType();
-        if(Config.getInstance().isNotCraftableItems(plugin).stream().noneMatch(i->i.equals(material))) {
+        if(Config.getInstance().nonCraftableItems(plugin).stream().noneMatch(i->i.equals(material))) {
             return;
         }
         Score score = objective.getScore(player.getName());
@@ -40,22 +41,31 @@ public class PlayerEventListener implements Listener {
     public void onEntityDropItemEvent(PlayerDropItemEvent e) {
         Player player = e.getPlayer();
         Material material = e.getItemDrop().getItemStack().getType();
-        if(Config.getInstance().isNotCraftableItems(plugin).stream().noneMatch(i->i.equals(material))) {
+        if(Config.getInstance().nonCraftableItems(plugin).stream().noneMatch(i->i.equals(material))) {
             return;
         }
         Score score = objective.getScore(player.getName());
         score.setScore(score.getScore() - 1);
     }
 
+    @SuppressWarnings("deprecation")
     @EventHandler
     public void onCraftItemEvent(CraftItemEvent e) {
         Player player = (Player)e.getWhoClicked();
         Material material = e.getRecipe().getResult().getType();
-        if(Config.getInstance().isNotCraftableItems(plugin).contains(material)) {
+        if(Config.getInstance().nonCraftableItems(plugin).contains(material)) {
             TextComponent component = new TextComponent();
             component.setText("ベッドは作成できません！");
             component.setColor(ChatColor.RED);
             player.sendMessage(component);
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockDamageEvent(BlockDamageEvent e) {
+        Material material = e.getBlock().getType();
+        if(Config.getInstance().nonBreakable(plugin).contains(material)) {
             e.setCancelled(true);
         }
     }

@@ -4,6 +4,7 @@ import net.kunmc.lab.newbedwars.NewBedWars;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,8 +17,10 @@ public class Conf extends BaseCommand{
     }
 
     @Override
-    public BaseComponent[] execute(String[] args) {
+    public void execute(String[] args, Player player) {
         plugin.getConfig().set(args[1], Integer.parseInt(args[2]));
+    }
+    public BaseComponent[] message() {
         return new ComponentBuilder("info: " + args[1] + "の設定変更が完了しました").color(ChatColor.GREEN).create();
     }
 

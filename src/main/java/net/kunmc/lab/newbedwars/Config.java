@@ -1,7 +1,6 @@
 package net.kunmc.lab.newbedwars;
 
 import org.bukkit.Material;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +10,15 @@ public class Config {
         return SettingHolder.INSTANCE;
     }
 
-    public ArrayList<Material> isNotCraftableItems(NewBedWars plugin) {
-        List<String> list = plugin.getConfig().getStringList("isnotcraftable");
+    public ArrayList<Material> nonCraftableItems(NewBedWars plugin) {
+        List<String> list = plugin.getConfig().getStringList("noncraftable");
+        ArrayList<Material> materialList = new ArrayList<>();
+        list.stream().filter(l -> null != Material.getMaterial(l)).forEach(l -> materialList.add(Material.getMaterial(l)));
+        return materialList;
+    }
+
+    public ArrayList<Material> nonBreakable(NewBedWars plugin) {
+        List<String> list = plugin.getConfig().getStringList("nonbreakable");
         ArrayList<Material> materialList = new ArrayList<>();
         list.stream().filter(l -> null != Material.getMaterial(l)).forEach(l -> materialList.add(Material.getMaterial(l)));
         return materialList;

@@ -4,6 +4,7 @@ import net.kunmc.lab.newbedwars.NewBedWars;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,12 @@ public class Info extends BaseCommand {
     }
 
     @Override
-    public BaseComponent[] execute(String[] args) {
+    public void execute(String[] args, Player player) {
         plugin.start();
+    }
+
+    @Override
+    public BaseComponent[] message() {
         return new ComponentBuilder("info: 設定値を表示します").color(ChatColor.GREEN).create();
     }
 
