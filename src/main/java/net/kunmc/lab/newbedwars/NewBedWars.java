@@ -36,7 +36,7 @@ public final class NewBedWars extends JavaPlugin {
         listener = new PlayerEventListener(this, objective);
         getServer().getPluginManager().registerEvents(listener, this);
 
-        Bukkit.getOnlinePlayers().stream().forEach(p -> initPlayer(p));
+        Bukkit.getOnlinePlayers().forEach(this::initPlayer);
     }
     public void stop() {
         HandlerList.unregisterAll(listener);
