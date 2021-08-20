@@ -10,7 +10,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
@@ -68,5 +72,29 @@ public class PlayerEventListener implements Listener {
         if(Config.getInstance().nonBreakable(plugin).contains(material)) {
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onInventoryCloseEvent(InventoryCloseEvent e) {
+        if(!InventoryType.CHEST.equals(e.getInventory().getType())) {
+            return;
+        }
+        Player player = (Player)e.getPlayer();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                int count = 0;
+                for (ItemStack item : player.getInventory()) {
+                    if(null == item) {
+                        continue;
+                    }
+                    if(Config.getInstance().nonCraftableItems(plugin).contains(item.getType()) ){
+                        count += item.getAmount();
+                    }
+                }
+                Score score = objective.getScore(player.getName());
+                score.setScore(count);
+            }
+        }.runTaskLater(plugin, 1);
     }
 }
