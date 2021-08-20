@@ -7,7 +7,7 @@ public class Const {
     public final static String DAYTRIK = "daytrik";
     public final static String COUNTDOWN = "countdown";
     public final static String DISTRIBUTION = "distribution";
-    public final static String CANNOTCRAFT = "cannotcraft";
+    public final static String ISCRAFTABLE = "iscraftable";
     public final static String RESPAWN = "respawn";
 
     // command
@@ -16,5 +16,8 @@ public class Const {
     public final static String INFO = "info";
     public final static String CONF = "conf";
     public final static String SET = "set";
+
+    // Scoreboard
+    public final static String BED_COUNT = "個のベッドを所有";
 
 }

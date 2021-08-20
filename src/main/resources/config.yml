@@ -1,8 +1,22 @@
 # ゲーム設定
-- daytrik: 1200
-- countdown: 5
-- distribution: 1
-- cannotcraft:
-    - BLACK_BED
+daytrik: 1200
+countdown: 5
+distribution: 1
+isnotcraftable:
     - WHITE_BED
-- respawn: false
+    - ORANGE_BED
+    - MAGENTA_BED
+    - LIGHT_BLUE_BED
+    - YELLOW_BED
+    - LIME_BED
+    - PINK_BED
+    - GRAY_BED
+    - LIGHT_GRAY_BED
+    - CYAN_BED
+    - PURPLE_BED
+    - BLUE_BED
+    - BROWN_BED
+    - GREEN_BED
+    - RED_BED
+    - BLACK_BED
+respawn: false
