@@ -1,11 +1,15 @@
 package net.kunmc.lab.newbedwars;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.scoreboard.Objective;
@@ -46,7 +50,15 @@ public class PlayerEventListener implements Listener {
     }
 
     @EventHandler
-    public void onPrepareItemCraftEvent(PrepareItemCraftEvent e) {
+    public void onCraftItemEvent(CraftItemEvent e) {
+        Player player = (Player)e.getWhoClicked();
+        Material material = e.getRecipe().getResult().getType();
+        if(Config.getInstance().isNotCraftableItems(plugin).contains(material)) {
+            BaseComponent[] component = new ComponentBuilder("ベッドは作成できません！").color(ChatColor.RED).create();
+            player.sendMessage(component);
+            e.setCancelled(true);
+            return;
+        }
     }
 
 }
