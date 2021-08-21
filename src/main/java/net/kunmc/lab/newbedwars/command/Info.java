@@ -17,7 +17,7 @@ public class Info extends BaseCommand {
 
     @Override
     public void execute(String[] args, Player player) {
-        plugin.start();
+        //plugin.start();
     }
 
     @Override

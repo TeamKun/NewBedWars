@@ -5,12 +5,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public final class NewBedWars extends JavaPlugin {
 
     private NBWScoreboard board;
     private PlayerEventListener listener;
+    private DaylightTask task;
 
     @Override
     public void onEnable() {
@@ -25,9 +28,11 @@ public final class NewBedWars extends JavaPlugin {
     }
 
     @SuppressWarnings("deprecation")
-    public void start() {
-        board = new NBWScoreboard();
+    public void start(Player commander) {
+        task = new DaylightTask(this, commander);
 
+        task.runTaskTimer(this, 0, 1);
+        board = new NBWScoreboard();
         listener = new PlayerEventListener(this, board);
         getServer().getPluginManager().registerEvents(listener, this);
 
@@ -37,8 +42,9 @@ public final class NewBedWars extends JavaPlugin {
     public void stop() {
         HandlerList.unregisterAll(listener);
         listener = null;
-
         board = null;
+        task.cancel();
+        task = null;
     }
 
     private void initPlayer(Player player) {
@@ -55,5 +61,12 @@ public final class NewBedWars extends JavaPlugin {
         board.setBedCountScore(player, count);
         board.setAliveTurnScore(player, 0);
         board.setShowPlayer(player);
+    }
+
+    public boolean isDay() {
+        if(task == null) {
+            return false;
+        }
+        return task.isDay();
     }
 }

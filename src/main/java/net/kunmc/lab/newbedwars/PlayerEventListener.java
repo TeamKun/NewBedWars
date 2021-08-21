@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -91,5 +92,15 @@ public class PlayerEventListener implements Listener {
                 scoreboard.setBedCountScore(player, count);
             }
         }.runTaskLater(plugin, 1);
+    }
+
+    public void onPlayerBedLeaveEvent(PlayerBedLeaveEvent e) {
+        plugin.getLogger().info(e.getEventName());
+        plugin.getLogger().info(e.getBed().toString());
+        Player player = e.getPlayer();
+        if(plugin.isDay()) {
+            scoreboard.addAliveTurnScore(player, 1);
+        }
+        //player.damage(20.0);
     }
 }
