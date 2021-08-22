@@ -1,8 +1,8 @@
 # ゲーム設定
-secondperday: 120
-countdown: 5
+secondPerDay: 120
+countDownSecond: 5
 distribution: 1
-noncraftable:
+cannotCraftItems:
     - WHITE_BED
     - ORANGE_BED
     - MAGENTA_BED
@@ -19,6 +19,6 @@ noncraftable:
     - GREEN_BED
     - RED_BED
     - BLACK_BED
-nonbreakable:
+cannotBreakItems:
     - CHEST
 respawn: false

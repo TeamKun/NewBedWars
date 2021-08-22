@@ -12,43 +12,45 @@ public class Config {
         return SettingHolder.INSTANCE;
     }
 
-    public ArrayList<Material> nonCraftableItems(NewBedWars plugin) {
-        List<String> list = plugin.getConfig().getStringList("noncraftable");
+    public ArrayList<Material> cannotCraftItems(NewBedWars plugin) {
+        List<String> list = plugin.getConfig().getStringList("cannotCraftItems");
         ArrayList<Material> materialList = new ArrayList<>();
         list.stream().filter(l -> null != Material.getMaterial(l)).forEach(l -> materialList.add(Material.getMaterial(l)));
         return materialList;
     }
 
-    public ArrayList<Material> nonBreakable(NewBedWars plugin) {
-        List<String> list = plugin.getConfig().getStringList("nonbreakable");
+    public ArrayList<Material> cannotBreakItems(NewBedWars plugin) {
+        List<String> list = plugin.getConfig().getStringList("cannotBreakItems");
         ArrayList<Material> materialList = new ArrayList<>();
         list.stream().filter(l -> null != Material.getMaterial(l)).forEach(l -> materialList.add(Material.getMaterial(l)));
         return materialList;
     }
 
-    public int dayTrik(NewBedWars plugin) {
-        return plugin.getConfig().getInt("secondperday");
+    public int getCountDown(NewBedWars plugin) {
+        return plugin.getConfig().getInt("countDownSecond");
     }
 
-    public long taskPerSecond(NewBedWars plugin) {
-        int dayTrik = dayTrik(plugin);
-        if(0 == dayTrik) {
-            return 0;
+    public int getSecondPerDay(NewBedWars plugin) {
+        return plugin.getConfig().getInt("secondPerDay");
+    }
+
+    private BigDecimal taskPerSecond(NewBedWars plugin) {
+        int dayTick = getSecondPerDay(plugin);
+        if(0 == dayTick) {
+            return BigDecimal.ZERO;
         }
-        // 現実時間の1秒につき何trikを必要とするか
-        long trikPerSecond = 24000L / dayTrik;
-        return trikPerSecond;
+        // 現実時間の1秒につき何tick進める必要があるか
+        return BigDecimal.valueOf(24000L).divide(BigDecimal.valueOf(dayTick),5, BigDecimal.ROUND_HALF_UP);
     }
 
     public BigDecimal taskDelay(NewBedWars plugin) {
-        BigDecimal trikPerSecond = BigDecimal.valueOf(taskPerSecond(plugin));
-        if(BigDecimal.ZERO == trikPerSecond) {
+        BigDecimal tickPerSecond = taskPerSecond(plugin);
+        if(BigDecimal.ZERO.equals(tickPerSecond)) {
             return BigDecimal.ZERO;
         }
-        // 1秒=20tick と比較して何倍の速さですすめる必要があるか
+        // 1tickあたりマイクラ内の時間をどれだけすすめるか
         BigDecimal gameLoop = BigDecimal.valueOf(20);
-        BigDecimal i = trikPerSecond.divide(gameLoop, 5, BigDecimal.ROUND_HALF_UP);
-        return i;
+        return tickPerSecond.divide(gameLoop, 5, BigDecimal.ROUND_HALF_UP);
     }
 
     public static class SettingHolder {

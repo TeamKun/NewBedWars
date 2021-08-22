@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Conf extends BaseCommand{
@@ -29,12 +30,9 @@ public class Conf extends BaseCommand{
         if(length - 1 != args.length) {
             return new ArrayList<>();
         }
-        return new ArrayList(
-                Arrays.stream(BaseAttribute.TYPE.values())
-                        .filter(e -> e.name().toLowerCase().startsWith(args[1]))
-                        .map(e->e.name().toLowerCase())
-                        .collect(Collectors.toList())
-        );
+        return Arrays.stream(BaseAttribute.TYPE.values())
+                .filter(e -> e.name().toLowerCase().startsWith(args[1]))
+                .map(e -> e.name().toLowerCase()).collect(Collectors.toCollection((Supplier<ArrayList>) ArrayList::new));
     }
 
     @Override

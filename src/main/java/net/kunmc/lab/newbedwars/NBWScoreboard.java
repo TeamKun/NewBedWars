@@ -36,18 +36,19 @@ public class NBWScoreboard {
             Objective objective = scoreboard.getObjective(name);
             score = objective.getScore(player);
         } catch(NullPointerException e) {
-
+            e.printStackTrace();
         }
         return score.getScore();
     }
 
     @SuppressWarnings("deprecation")
     private void setScore(Player player, String name, int i) {
-        Score score = null;
+        Score score;
         try {
             Objective objective = scoreboard.getObjective(name);
             score = objective.getScore(player);
         } catch(NullPointerException e) {
+            e.printStackTrace();
             return;
         }
         score.setScore(i);

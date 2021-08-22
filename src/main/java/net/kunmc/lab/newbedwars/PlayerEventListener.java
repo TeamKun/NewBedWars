@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +34,7 @@ public class PlayerEventListener implements Listener {
         }
         Player player = (Player)e.getEntity();
         Material material = e.getItem().getItemStack().getType();
-        if(Config.getInstance().nonCraftableItems(plugin).stream().noneMatch(i->i.equals(material))) {
+        if(Config.getInstance().cannotCraftItems(plugin).stream().noneMatch(i->i.equals(material))) {
             return;
         }
         scoreboard.addBedCountScore(player, e.getItem().getItemStack().getAmount());
@@ -43,7 +44,7 @@ public class PlayerEventListener implements Listener {
     public void onEntityDropItemEvent(PlayerDropItemEvent e) {
         Player player = e.getPlayer();
         Material material = e.getItemDrop().getItemStack().getType();
-        if(Config.getInstance().nonCraftableItems(plugin).stream().noneMatch(i->i.equals(material))) {
+        if(Config.getInstance().cannotCraftItems(plugin).stream().noneMatch(i->i.equals(material))) {
             return;
         }
         scoreboard.minusBedCountScore(player, e.getItemDrop().getItemStack().getAmount());
@@ -54,7 +55,7 @@ public class PlayerEventListener implements Listener {
     public void onCraftItemEvent(CraftItemEvent e) {
         Player player = (Player)e.getWhoClicked();
         Material material = e.getRecipe().getResult().getType();
-        if(Config.getInstance().nonCraftableItems(plugin).contains(material)) {
+        if(Config.getInstance().cannotCraftItems(plugin).contains(material)) {
             TextComponent component = new TextComponent();
             component.setText("ベッドは作成できません！");
             component.setColor(ChatColor.RED);
@@ -66,7 +67,7 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     public void onBlockDamageEvent(BlockDamageEvent e) {
         Material material = e.getBlock().getType();
-        if(Config.getInstance().nonBreakable(plugin).contains(material)) {
+        if(Config.getInstance().cannotBreakItems(plugin).contains(material)) {
             e.setCancelled(true);
         }
     }
@@ -85,7 +86,7 @@ public class PlayerEventListener implements Listener {
                     if(null == item) {
                         continue;
                     }
-                    if(Config.getInstance().nonCraftableItems(plugin).contains(item.getType()) ){
+                    if(Config.getInstance().cannotCraftItems(plugin).contains(item.getType()) ){
                         count += item.getAmount();
                     }
                 }
@@ -94,13 +95,20 @@ public class PlayerEventListener implements Listener {
         }.runTaskLater(plugin, 1);
     }
 
+    @EventHandler
     public void onPlayerBedLeaveEvent(PlayerBedLeaveEvent e) {
-        plugin.getLogger().info(e.getEventName());
-        plugin.getLogger().info(e.getBed().toString());
+        plugin.getLogger().info("onPlayerBedLeaveEvent: " + plugin.getTime());
+        plugin.getLogger().info("onPlayerBedLeaveEvent: " + e.getEventName());
+        plugin.getLogger().info("onPlayerBedLeaveEvent: " + e.getBed());
         Player player = e.getPlayer();
         if(plugin.isDay()) {
             scoreboard.addAliveTurnScore(player, 1);
         }
         //player.damage(20.0);
+    }
+
+    @EventHandler
+    public void onPlayerBedEnterEvent(PlayerBedEnterEvent e) {
+        plugin.getLogger().info("onPlayerBedEnterEvent: " + plugin.getTime());
     }
 }

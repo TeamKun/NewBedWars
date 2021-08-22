@@ -5,9 +5,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class Info extends BaseCommand {
 

@@ -50,7 +50,7 @@ public class BaseAttribute {
         };
 
         abstract BaseComponent[] check(String s);
-    };
+    }
 
     public static TYPE getType(String arg) {
         return TYPE.valueOf(arg.toUpperCase());

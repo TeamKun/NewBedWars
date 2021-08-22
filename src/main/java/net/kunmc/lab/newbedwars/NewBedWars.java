@@ -5,8 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public final class NewBedWars extends JavaPlugin {
@@ -54,7 +52,7 @@ public final class NewBedWars extends JavaPlugin {
             if(null == item) {
                 continue;
             }
-            if(Config.getInstance().nonCraftableItems(this).contains(item.getType()) ){
+            if(Config.getInstance().cannotCraftItems(this).contains(item.getType()) ){
                 count += item.getAmount();
             }
         }
@@ -68,5 +66,13 @@ public final class NewBedWars extends JavaPlugin {
             return false;
         }
         return task.isDay();
+    }
+
+    public void killPlayer() {
+        //Bukkit.getOnlinePlayers().stream().filter(p->!(p.isSleeping())).forEach(p->p.sendMessage("早く寝なきゃだめでしょ！"));
+    }
+
+    public long getTime() {
+        return task.getTime();
     }
 }
