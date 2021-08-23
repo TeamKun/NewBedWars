@@ -76,6 +76,8 @@ public class DaylightTask extends BukkitRunnable {
             }
 
             if(TIME.nightEnd.tick <= time) {
+                plugin.addAliveTurn();
+
                 time = TIME.dayStart.tick;
                 nightMagnification = 120L;
                 sunsetMagnification = 120L;
@@ -90,14 +92,6 @@ public class DaylightTask extends BukkitRunnable {
             plugin.getLogger().warning("時間経過処理で例外が発生しました");
             plugin.getLogger().warning(e.getMessage());
         }
-    }
-
-    public boolean isDay() {
-        return false;
-    }
-
-    public boolean isNight() {
-        return false;
     }
 
     public long getTime() {

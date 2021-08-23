@@ -96,18 +96,6 @@ public class PlayerEventListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerBedLeaveEvent(PlayerBedLeaveEvent e) {
-        plugin.getLogger().info("onPlayerBedLeaveEvent: " + plugin.getTime());
-        plugin.getLogger().info("onPlayerBedLeaveEvent: " + e.getEventName());
-        plugin.getLogger().info("onPlayerBedLeaveEvent: " + e.getBed());
-        Player player = e.getPlayer();
-        if(plugin.isDay()) {
-            scoreboard.addAliveTurnScore(player, 1);
-        }
-        //player.damage(20.0);
-    }
-
-    @EventHandler
     public void onPlayerBedEnterEvent(PlayerBedEnterEvent e) {
         plugin.getLogger().info("onPlayerBedEnterEvent: " + plugin.getTime());
     }

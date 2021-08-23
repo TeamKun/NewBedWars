@@ -15,7 +15,6 @@ public class NBWScoreboard {
     private final static String ALIVE_TURN_COUNT = "aliveTurn";
     private final static String ALIVE_TURN_NAME = "生存日数";
 
-    @SuppressWarnings("deprecation")
     public NBWScoreboard() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         // ベッドの所有数
@@ -29,7 +28,6 @@ public class NBWScoreboard {
         objective2.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
-    @SuppressWarnings("deprecation")
     private int getScore(Player player, String name) {
         Score score = null;
         try {
@@ -82,7 +80,7 @@ public class NBWScoreboard {
 
     public void addAliveTurnScore(Player player, int i) {
         int score = getAliveTurnScore(player);
-        setBedCountScore(player, score + i);
+        setAliveTurnScore(player, score + i);
     }
 
     public void setShowPlayer(Player player) {

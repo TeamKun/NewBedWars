@@ -61,18 +61,15 @@ public final class NewBedWars extends JavaPlugin {
         board.setShowPlayer(player);
     }
 
-    public boolean isDay() {
-        if(task == null) {
-            return false;
-        }
-        return task.isDay();
-    }
-
     public void killPlayer() {
         //Bukkit.getOnlinePlayers().stream().filter(p->!(p.isSleeping())).forEach(p->p.sendMessage("早く寝なきゃだめでしょ！"));
     }
 
     public long getTime() {
         return task.getTime();
+    }
+
+    public void addAliveTurn() {
+        Bukkit.getOnlinePlayers().stream().filter(p->!p.isDead()).forEach(p->board.addAliveTurnScore(p, 1));
     }
 }
