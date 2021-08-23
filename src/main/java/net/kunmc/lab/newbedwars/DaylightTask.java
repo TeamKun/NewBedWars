@@ -14,13 +14,14 @@ public class DaylightTask extends BukkitRunnable {
     private final World world;
     private long time;
     private final long dayMagnification;
+    private long sunsetMagnification = 120L;
     private long nightMagnification = 120L;
     private CountdownTask countDownTask;
     private boolean isCountdown = true;
-    private long nightStart = 13000L;
     enum TIME {
         dayStart(0L),
-        bedIn(12517L),
+        sunsetStart(12517L),
+        nightStart(13000L),
         nightEnd(24000L);
         private final long tick;
         TIME(long tick) {
@@ -45,7 +46,7 @@ public class DaylightTask extends BukkitRunnable {
                 this.cancel();
             }
             world.setTime(time);
-            if(TIME.bedIn.tick <= time && isCountdown) {
+            if(TIME.sunsetStart.tick <= time && isCountdown) {
                 // カウントダウン
                 int cntDownSecond = Config.getInstance().getCountDown(plugin);
                 doCountDown(cntDownSecond);
@@ -55,7 +56,8 @@ public class DaylightTask extends BukkitRunnable {
 
                 isCountdown = false;
             }
-            if(nightStart <= time) {
+
+            if(TIME.nightStart.tick <= time) {
                 if(countDownTask.isCancelled()) {
                     // フライング起床のためキル
                     plugin.killPlayer();
@@ -63,6 +65,10 @@ public class DaylightTask extends BukkitRunnable {
                 // 夜間は固定速度でスキップ
                 time += nightMagnification;
                 plugin.getLogger().info("world time(night): " + time);
+            } else if (TIME.sunsetStart.tick <= time) {
+                // 日の入りは固定速度でスキップ
+                time += sunsetMagnification;
+                plugin.getLogger().info("world time(sunset): " + time);
             } else {
                 // 日中は設定した速度で時間経過
                 time += dayMagnification;
@@ -72,7 +78,7 @@ public class DaylightTask extends BukkitRunnable {
             if(TIME.nightEnd.tick <= time) {
                 time = TIME.dayStart.tick;
                 nightMagnification = 120L;
-                nightStart = 13000L;
+                sunsetMagnification = 120L;
                 isCountdown = true;
                 plugin.getLogger().info("world time(リセット): " + time);
                 countDownTask = null;
@@ -104,12 +110,15 @@ public class DaylightTask extends BukkitRunnable {
     }
 
     private void updNightMagnification(int cntDownSecond) {
-        // 全員就寝～朝までの経過速度を計算・更新する
-        BigDecimal afterCountdownTick = BigDecimal.valueOf(time + (dayMagnification * 20 * cntDownSecond));
-        nightStart = afterCountdownTick.longValue();
+        // 日の入りの時間経過速度を計算
+        BigDecimal cntDownSpeed = BigDecimal.valueOf(20L).multiply(BigDecimal.valueOf(cntDownSecond));
+        BigDecimal untilNight = BigDecimal.valueOf(TIME.nightStart.tick).subtract(BigDecimal.valueOf(time));
+        sunsetMagnification = untilNight.divide(cntDownSpeed, 5, BigDecimal.ROUND_HALF_UP).longValue();
 
-        BigDecimal untilDayStart = BigDecimal.valueOf(24000L).subtract(afterCountdownTick);
-        nightMagnification = untilDayStart.divide(BigDecimal.valueOf(20L).multiply(BigDecimal.valueOf(cntDownSecond)), 5, BigDecimal.ROUND_HALF_UP).longValue();
+        // 夜の時間経過を速度を計算
+        BigDecimal nightSpeed = BigDecimal.valueOf(20L).multiply(BigDecimal.valueOf(5L));
+        BigDecimal untilDayStart = BigDecimal.valueOf(24000L).subtract(BigDecimal.valueOf(TIME.nightStart.tick));
+        nightMagnification = untilDayStart.divide(nightSpeed, 5, BigDecimal.ROUND_HALF_UP).longValue();
     }
 
     private class CountdownTask extends BukkitRunnable {
@@ -119,7 +128,6 @@ public class DaylightTask extends BukkitRunnable {
             this.countdown = countdown;
         }
 
-        @SuppressWarnings("deprecation")
         @Override
         public void run() {
             if(countdown >= 0) {
