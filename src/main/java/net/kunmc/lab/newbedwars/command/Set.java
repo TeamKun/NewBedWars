@@ -15,12 +15,11 @@ public class Set extends BaseCommand{
 
     @Override
     public BaseComponent[] execute(String[] args, Player player) {
-        plugin.set(player);
-        Location loc = plugin.getChestLocation();
-        if(null == loc) {
-            return new ComponentBuilder("error: 配給用チェストの設定に失敗しました").color(ChatColor.RED).create();
+        if(plugin.set(player)) {
+            Location loc = plugin.getChestLocation();
+            return new ComponentBuilder("info: 配給用のチェストを設定しました(座標：" + loc.getX() + ", " + loc.getY() + ", " + loc.getZ() + ")").color(ChatColor.GREEN).create();
         }
-        return new ComponentBuilder("info: 配給用のチェストを設定しました(座標：" + loc.getX() + "," + loc.getY() + "," + loc.getZ()).color(ChatColor.GREEN).create();
+        return new ComponentBuilder("error: 配給用チェストの設定に失敗しました。指定したブロックがチェストではありません。").color(ChatColor.RED).create();
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Info extends BaseCommand {
     public BaseComponent[] execute(String[] args, Player player) {
         ComponentBuilder chestList = new ComponentBuilder();
         ArrayList<Location> list = plugin.getChestList();
-        list.stream().forEach(l->chestList.append("座標： " + l.getX() + "," + l.getY() + "," + l.getZ() + "\n"));
+        list.stream().forEach(l->chestList.append(" +座標： " + l.getX() + ", " + l.getY() + ", " + l.getZ() + "\n"));
 
         if(chestList.getCursor() == -1) {
             return new ComponentBuilder("----- 設定値一覧 -----\n").color(ChatColor.GREEN)

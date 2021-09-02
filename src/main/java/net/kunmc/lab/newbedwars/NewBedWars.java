@@ -54,12 +54,13 @@ public final class NewBedWars extends JavaPlugin {
         world = null;
     }
 
-    public void set(Player commander) {
+    public boolean set(Player commander) {
         Block block = getPlayerFacedBlock(commander);
         if(Material.CHEST != block.getType()) {
-            return;
+            return false;
         }
         chestList.add(block.getLocation());
+        return true;
     }
 
     public ArrayList<Location> getChestList(){
@@ -79,7 +80,7 @@ public final class NewBedWars extends JavaPlugin {
         if(Material.CHEST != block.getType()) {
             return false;
         }
-        if (!chestList.contains(block)) {
+        if (!chestList.contains(block.getLocation())) {
             return false;
         }
         getChestList().stream().filter(l->l.equals(block)).forEach(l->chestList.remove(l));
@@ -87,14 +88,13 @@ public final class NewBedWars extends JavaPlugin {
     }
 
     private Block getPlayerFacedBlock(Player player) {
-        Location loc = player.getLocation().add(player.getLocation().getDirection().multiply(1));
-        Block block = world.getBlockAt(loc);
+        Block block = player.getTargetBlock(5);
         return block;
     }
 
     public boolean isContainsChest(Player commander) {
         Block block = getPlayerFacedBlock(commander);
-        if(chestList.contains(block)){
+        if(chestList.contains(block.getLocation())){
             return true;
         }
         return false;
