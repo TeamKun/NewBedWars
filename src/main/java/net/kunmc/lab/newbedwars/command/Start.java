@@ -28,6 +28,9 @@ public class Start extends BaseCommand{
         if(length != args.length) {
             return new ComponentBuilder("error: 引数が間違っています \nusage: /nbw start").color(ChatColor.RED).create();
         }
+        if(plugin.getChestList().size() < 1) {
+            return new ComponentBuilder("error: 配給用チェストが未設定です。先にsetコマンドで設定してください \nusage: /nbw set").color(ChatColor.RED).create();
+        }
         return null;
     }
 }
