@@ -16,9 +16,9 @@ public class Unset extends BaseCommand{
     @Override
     public BaseComponent[] execute(String[] args, Player player) {
         if(plugin.unset(player)){
-            return new ComponentBuilder("info: 配給用のチェストを解除しました").color(ChatColor.GREEN).create();
+            return new ComponentBuilder("info: 配給用チェストを解除しました").color(ChatColor.GREEN).create();
         }
-        return new ComponentBuilder("error: 配給用のチェストの解除に失敗しました").color(ChatColor.RED).create();
+        return new ComponentBuilder("error: 配給用チェストの解除に失敗しました。配給用チェストではありません。").color(ChatColor.RED).create();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Unset extends BaseCommand{
             return new ComponentBuilder("error: 引数が間違っています \nusage: /nbw set").color(ChatColor.RED).create();
         }
         if(plugin.getChestList().size() == 0) {
-            return new ComponentBuilder("error: 配給用のチェストが未設定です。先にsetコマンドで設定してください。 \nusage: /nbw set").color(ChatColor.RED).create();
+            return new ComponentBuilder("error: 配給用のチェストが1件も設定されていません。先にsetコマンドで設定してください。 \nusage: /nbw set").color(ChatColor.RED).create();
         }
         return null;
     }

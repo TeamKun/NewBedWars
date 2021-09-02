@@ -10,6 +10,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
 public final class NewBedWars extends JavaPlugin {
@@ -68,22 +69,25 @@ public final class NewBedWars extends JavaPlugin {
     }
 
     public Location getChestLocation() {
-        ArrayList<Location> list = getChestList();
-        if(list.isEmpty()) {
+        if(chestList.isEmpty()) {
             return null;
         }
-        return list.get(list.size() - 1);
+        return chestList.get(chestList.size() - 1);
     }
 
     public boolean unset(Player commander) {
         Block block = getPlayerFacedBlock(commander);
-        if(Material.CHEST != block.getType()) {
-            return false;
-        }
         if (!chestList.contains(block.getLocation())) {
             return false;
         }
-        getChestList().stream().filter(l->l.equals(block)).forEach(l->chestList.remove(l));
+
+        // ConcurrentModificationException予防のため、Iteratorで処理
+        for(Iterator<Location> i = chestList.iterator(); i.hasNext(); ) {
+            Location l = i.next();
+            if(l.equals(block.getLocation())) {
+                i.remove();
+            }
+        }
         return true;
     }
 
