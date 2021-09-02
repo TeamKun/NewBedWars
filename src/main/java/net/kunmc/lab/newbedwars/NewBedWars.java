@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
@@ -133,11 +134,32 @@ public final class NewBedWars extends JavaPlugin {
     }
 
     public void fillChest() {
-        // TODO: チェストの座標を取得
-        //Block b = world.getBlockAt(xPos, yPos, zPos);
-        //Chest c = (Chest) b.getState();
-        // TODO: 配給アイテムを追加
-        //c.getBlockInventory().addItem(items);
-        //c.update();
+        int totalAmount = getConfig().getInt("distribution");
+        int chestCnt = chestList.size();
+        if(0 == chestCnt) {
+            return;
+        }
+        int[] cnt = new int[chestCnt];
+        for(int i=0; i<cnt.length; i++) {
+            cnt[i] = (i == cnt.length -1) ?
+                    (totalAmount/chestCnt) + (totalAmount%chestCnt) : totalAmount/chestCnt;
+        }
+
+        //TODO: チェストからあふれるときの処理
+        for(int i =0; i<chestList.size(); i++) {
+            Block block = world.getBlockAt(chestList.get(i));
+            if(Material.CHEST != block.getType()) {
+                return;
+            }
+            Chest chest = (Chest) block.getState(false);
+            ItemStack[] stack = new ItemStack[cnt[i]];
+
+            // スタックさせずに配給する
+            for(int j=0; j <cnt[i] ; j++) {
+                stack[j] = new ItemStack(Material.BLACK_BED);
+            }
+            chest.getBlockInventory().addItem(stack);
+            chest.update(true);
+        }
     }
 }
