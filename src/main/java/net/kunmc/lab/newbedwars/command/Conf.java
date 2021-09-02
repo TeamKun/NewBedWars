@@ -18,10 +18,8 @@ public class Conf extends BaseCommand{
     }
 
     @Override
-    public void execute(String[] args, Player player) {
+    public BaseComponent[] execute(String[] args, Player player) {
         plugin.getConfig().set(args[1], Integer.parseInt(args[2]));
-    }
-    public BaseComponent[] message() {
         return new ComponentBuilder("info: " + args[1] + "の設定変更が完了しました").color(ChatColor.GREEN).create();
     }
 
@@ -36,7 +34,7 @@ public class Conf extends BaseCommand{
     }
 
     @Override
-    public BaseComponent[] check(String[] args) {
+    public BaseComponent[] check(String[] args, Player player) {
         if(length != args.length) {
             return new ComponentBuilder("error: 引数が間違っています \nusage: /nbw conf").color(ChatColor.RED).create();
         }

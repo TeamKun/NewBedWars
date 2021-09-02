@@ -5,7 +5,6 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.math.BigDecimal;
 
@@ -29,9 +28,9 @@ public class DaylightTask extends BukkitRunnable {
         }
     }
 
-    public DaylightTask(NewBedWars plugin, Player commander) {
+    public DaylightTask(NewBedWars plugin, World world) {
         this.plugin = plugin;
-        this.world = commander.getWorld();
+        this.world = world;
 
         BigDecimal b = Config.getInstance().taskDelay(plugin);
         dayMagnification = b.longValue();
@@ -77,6 +76,7 @@ public class DaylightTask extends BukkitRunnable {
 
             if(TIME.nightEnd.tick <= time) {
                 plugin.addAliveTurn();
+                plugin.fillChest();
 
                 time = TIME.dayStart.tick;
                 nightMagnification = 120L;

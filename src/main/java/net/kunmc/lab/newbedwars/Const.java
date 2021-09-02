@@ -20,4 +20,5 @@ public class Const {
     public final static String INFO = "info";
     public final static String CONF = "conf";
     public final static String SET = "set";
+    public final static String UNSET = "unset";
 }

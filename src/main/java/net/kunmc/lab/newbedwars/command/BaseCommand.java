@@ -16,8 +16,7 @@ public abstract class BaseCommand {
         this.args = args;
         this.length = length;
     }
-    public abstract void execute(String[] args, Player player);
+    public abstract BaseComponent[] execute(String[] args, Player player);
     public abstract ArrayList onTabComplete(String[] args);
-    public abstract BaseComponent[] check(String[] args);
-    public abstract BaseComponent[] message();
+    public abstract BaseComponent[] check(String[] args, Player player);
 }

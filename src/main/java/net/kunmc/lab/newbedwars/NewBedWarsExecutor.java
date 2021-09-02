@@ -35,14 +35,17 @@ public class NewBedWarsExecutor implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        BaseComponent[] message = nbwCommand.check(args);
-        if(message != null) {
+        BaseComponent[] message = nbwCommand.check(args, ((Player) sender).getPlayer());
+        if(null != message) {
             sender.sendMessage(message);
             return true;
         }
 
-        nbwCommand.execute(args, ((Player) sender).getPlayer());
-        sender.sendMessage(nbwCommand.message());
+        BaseComponent[] execMessage = nbwCommand.execute(args, ((Player) sender).getPlayer());
+        if(null != execMessage) {
+            sender.sendMessage(execMessage);
+            return true;
+        }
         return true;
     }
 
@@ -77,6 +80,8 @@ public class NewBedWarsExecutor implements CommandExecutor, TabCompleter {
                 return new Info(plugin, args);
             case Const.SET:
                 return new Set(plugin, args);
+            case Const.UNSET:
+                return new Unset(plugin, args);
         }
         return null;
     }

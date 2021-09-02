@@ -4,6 +4,7 @@ import net.kunmc.lab.newbedwars.NewBedWars;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
 
@@ -14,13 +15,20 @@ public class Info extends BaseCommand {
     }
 
     @Override
-    public void execute(String[] args, Player player) {
-        //plugin.start();
-    }
+    public BaseComponent[] execute(String[] args, Player player) {
+        ComponentBuilder chestList = new ComponentBuilder();
+        ArrayList<Location> list = plugin.getChestList();
+        list.stream().forEach(l->chestList.append("座標： " + l.getX() + "," + l.getY() + "," + l.getZ() + "\n"));
 
-    @Override
-    public BaseComponent[] message() {
-        return new ComponentBuilder("info: 設定値を表示します").color(ChatColor.GREEN).create();
+        if(chestList.getCursor() == -1) {
+            return new ComponentBuilder("----- 設定値一覧 -----\n").color(ChatColor.GREEN)
+                    .append("配給用チェスト: なし\n")
+                    .append("-------------------").color(ChatColor.GREEN).create();
+        }
+
+        return new ComponentBuilder("----- 設定値一覧 -----\n").color(ChatColor.GREEN)
+                .append("配給用チェスト:\n").append(chestList.create())
+                .append("-------------------").color(ChatColor.GREEN).create();
     }
 
     @Override
@@ -29,7 +37,7 @@ public class Info extends BaseCommand {
     }
 
     @Override
-    public BaseComponent[] check(String[] args) {
+    public BaseComponent[] check(String[] args, Player player) {
         if(length != args.length) {
             return new ComponentBuilder("error: 引数が間違っています \nusage: /nbw info").color(ChatColor.RED).create();
         }

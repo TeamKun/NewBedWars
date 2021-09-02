@@ -13,12 +13,8 @@ public class Start extends BaseCommand{
     }
 
     @Override
-    public void execute(String[] args, Player player) {
+    public BaseComponent[] execute(String[] args, Player player) {
         plugin.start(player);
-    }
-
-    @Override
-    public BaseComponent[] message() {
         return new ComponentBuilder("info: 新ベッドウォーズが開始しました").color(ChatColor.GREEN).create();
     }
 
@@ -28,7 +24,7 @@ public class Start extends BaseCommand{
     }
 
     @Override
-    public BaseComponent[] check(String[] args) {
+    public BaseComponent[] check(String[] args, Player player) {
         if(length != args.length) {
             return new ComponentBuilder("error: 引数が間違っています \nusage: /nbw start").color(ChatColor.RED).create();
         }
