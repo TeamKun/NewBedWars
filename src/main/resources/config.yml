@@ -1,24 +1,4 @@
 # ゲーム設定
-secondPerDay: 120
-countDownSecond: 5
-distribution: 1
-cannotCraftItems:
-    - WHITE_BED
-    - ORANGE_BED
-    - MAGENTA_BED
-    - LIGHT_BLUE_BED
-    - YELLOW_BED
-    - LIME_BED
-    - PINK_BED
-    - GRAY_BED
-    - LIGHT_GRAY_BED
-    - CYAN_BED
-    - PURPLE_BED
-    - BLUE_BED
-    - BROWN_BED
-    - GREEN_BED
-    - RED_BED
-    - BLACK_BED
-cannotBreakItems:
-    - CHEST
-respawn: false
+daysecond: 120
+countdown: 5
+lessbed: 1
