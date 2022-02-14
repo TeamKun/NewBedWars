@@ -31,7 +31,7 @@ public class Unset extends BaseCommand{
         if(length != args.length) {
             return new ComponentBuilder("error: 引数が間違っています \nusage: /nbw set").color(ChatColor.RED).create();
         }
-        if(plugin.getChestList().size() == 0) {
+        if(plugin.getDistributionChest().size() == 0) {
             return new ComponentBuilder("error: 配給用のチェストが1件も設定されていません。先にsetコマンドで設定してください。 \nusage: /nbw set").color(ChatColor.RED).create();
         }
         return null;

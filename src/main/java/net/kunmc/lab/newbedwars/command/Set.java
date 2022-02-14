@@ -32,7 +32,7 @@ public class Set extends BaseCommand{
         if(length != args.length) {
             return new ComponentBuilder("error: 引数が間違っています \nusage: /nbw set").color(ChatColor.RED).create();
         }
-        if(plugin.isContainsChest(player)) {
+        if(plugin.containsDistributionChest(player)) {
             return new ComponentBuilder("error: すでに配給用チェストに設定済です").color(ChatColor.RED).create();
         }
         return null;

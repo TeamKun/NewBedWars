@@ -17,17 +17,23 @@ public class Info extends BaseCommand {
     @Override
     public BaseComponent[] execute(String[] args, Player player) {
         ComponentBuilder chestList = new ComponentBuilder();
-        ArrayList<Location> list = plugin.getChestList();
+        ArrayList<Location> list = plugin.getDistributionChest();
         list.stream().forEach(l->chestList.append(" +座標： " + l.getX() + ", " + l.getY() + ", " + l.getZ() + "\n"));
 
         if(chestList.getCursor() == -1) {
             return new ComponentBuilder("----- 設定値一覧 -----\n").color(ChatColor.GREEN)
                     .append("配給用チェスト: なし\n")
+                    .append("不足ベッド数： " + plugin.getLessChair() + "\n")
+                    .append("昼時間(秒)： " + plugin.getDaySecond() + "\n")
+                    .append("カウントダウン(秒)： " + plugin.getCountDown() + "\n")
                     .append("-------------------").color(ChatColor.GREEN).create();
         }
 
         return new ComponentBuilder("----- 設定値一覧 -----\n").color(ChatColor.GREEN)
                 .append("配給用チェスト:\n").append(chestList.create())
+                .append("不足ベッド数： " + plugin.getLessChair() + "\n")
+                .append("昼時間(秒)： " + plugin.getDaySecond() + "\n")
+                .append("カウントダウン(秒)： " + plugin.getCountDown() + "\n")
                 .append("-------------------").color(ChatColor.GREEN).create();
     }
 

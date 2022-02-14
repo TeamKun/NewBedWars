@@ -3,19 +3,20 @@ package net.kunmc.lab.newbedwars.command;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import org.bukkit.Bukkit;
 
 public class BaseAttribute {
     enum TYPE {
-        DAYTRIK {
+        DAYSECOND {
             @Override
             BaseComponent[] check(String s) {
                 try {
                     int trik = Integer.parseInt(s);
-                    if (trik < 10 || 3000 < trik) {
-                        return new ComponentBuilder("error: daytrikは 10~3000 の間で設定してください").color(ChatColor.RED).create();
+                    if (trik < 10 || 300 < trik) {
+                        return new ComponentBuilder("error: daysecondは 10~300 の間で設定してください").color(ChatColor.RED).create();
                     }
                 } catch (Exception e) {
-                    return new ComponentBuilder("error: daytrik が数値に変換できませんでした").color(ChatColor.RED).create();
+                    return new ComponentBuilder("error: daysecond は数字で入力してください").color(ChatColor.RED).create();
                 }
                 return null;
             }
@@ -25,25 +26,25 @@ public class BaseAttribute {
             BaseComponent[] check(String s) {
                 try {
                     int count = Integer.parseInt(s);
-                    if (count < 1 || 3000 < count) {
-                        return new ComponentBuilder("error: countdownは 1~3000 の間で設定してください").color(ChatColor.RED).create();
+                    if (count < 1 || 30 < count) {
+                        return new ComponentBuilder("error: countdownは 1~30 の間で設定してください").color(ChatColor.RED).create();
                     }
                 } catch (Exception e) {
-                    return new ComponentBuilder("error: countdown が数値に変換できませんでした").color(ChatColor.RED).create();
+                    return new ComponentBuilder("error: countdown は数字で入力してください").color(ChatColor.RED).create();
                 }
                 return null;
             }
         },
-        DISTRIBUTION {
+        LESSBED {
             @Override
             BaseComponent[] check(String s) {
                 try {
-                    int distribution = Integer.parseInt(s);
-                    if (distribution < 0 || 100 < distribution) {
-                        return new ComponentBuilder("error: distributionは 0~100 の間で設定してください").color(ChatColor.RED).create();
+                    int lessChair = Integer.parseInt(s);
+                    if (lessChair < 0 || Bukkit.getOnlinePlayers().size() <= lessChair) {
+                        return new ComponentBuilder("error: lessbedは 参加人数以下の整数で設定してください").color(ChatColor.RED).create();
                     }
                 } catch (Exception e) {
-                    return new ComponentBuilder("error: distribution が数値に変換できませんでした").color(ChatColor.RED).create();
+                    return new ComponentBuilder("error: lessbed は数字で入力してください").color(ChatColor.RED).create();
                 }
                 return null;
             }

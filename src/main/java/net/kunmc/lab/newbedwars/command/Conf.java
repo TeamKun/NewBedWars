@@ -5,7 +5,6 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -19,8 +18,14 @@ public class Conf extends BaseCommand{
 
     @Override
     public BaseComponent[] execute(String[] args, Player player) {
-        plugin.getConfig().set(args[1], Integer.parseInt(args[2]));
-        return new ComponentBuilder("info: " + args[1] + "の設定変更が完了しました").color(ChatColor.GREEN).create();
+        if (plugin.isStart()) {
+            plugin.getConfig().set(args[1], Integer.parseInt(args[2]));
+            plugin.saveConfig();
+            plugin.reloadConfig();
+            return new ComponentBuilder("info: " + args[1] + "の設定変更が完了しました").color(ChatColor.GREEN).create();
+        } else {
+            return new ComponentBuilder("error: 新ベッドウォーズを停止してから変更してください \nusage: /nbw stop").color(ChatColor.RED).create();
+        }
     }
 
     @Override
@@ -36,11 +41,11 @@ public class Conf extends BaseCommand{
     @Override
     public BaseComponent[] check(String[] args, Player player) {
         if(length != args.length) {
-            return new ComponentBuilder("error: 引数が間違っています \nusage: /nbw conf").color(ChatColor.RED).create();
+            return new ComponentBuilder("error: 引数が間違っています \nusage: /nbw conf [countdown | daysecond | lessbed]").color(ChatColor.RED).create();
         }
         // 属性の値チェック
         if(Arrays.stream(BaseAttribute.TYPE.values()).noneMatch(attr -> attr.name().toLowerCase().equals(args[1]))) {
-            return new ComponentBuilder("error: コマンドが間違っています \nusage: /nbw conf").color(ChatColor.RED).create();
+            return new ComponentBuilder("error: コマンドが間違っています \nusage: /nbw conf [countdown | daysecond | lessbed]").color(ChatColor.RED).create();
         }
 
         // 引数の範囲チェック

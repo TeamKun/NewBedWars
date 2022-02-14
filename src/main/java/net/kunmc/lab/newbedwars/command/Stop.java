@@ -14,8 +14,12 @@ public class Stop extends BaseCommand{
 
     @Override
     public BaseComponent[] execute(String[] args, Player player) {
-        plugin.stop();
-        return new ComponentBuilder("info: 新ベッドウォーズが終了しました").color(ChatColor.GREEN).create();
+        if(plugin.stop()) {
+            return new ComponentBuilder("info: 新ベッドウォーズが終了しました").color(ChatColor.GREEN).create();
+        } else {
+            return new ComponentBuilder("error: 新ベッドウォーズが起動していません \nusage: /nbw start").color(ChatColor.RED).create();
+        }
+
     }
 
     @Override

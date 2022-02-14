@@ -7,15 +7,15 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-public class NBWScoreboard {
+public class GameScore {
     private final Scoreboard scoreboard;
     private final static String BED_COUNT = "bedCount";
-    private final static String BED_NAME = "個のベッドを所有";
+    private final static String BED_NAME = "個所有";
 
     private final static String ALIVE_TURN_COUNT = "aliveTurn";
     private final static String ALIVE_TURN_NAME = "生存日数";
 
-    public NBWScoreboard() {
+    public GameScore() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         // ベッドの所有数
         Objective objective1 = scoreboard.registerNewObjective(BED_COUNT, "dummy");
@@ -39,7 +39,6 @@ public class NBWScoreboard {
         return score.getScore();
     }
 
-    @SuppressWarnings("deprecation")
     private void setScore(Player player, String name, int i) {
         Score score;
         try {

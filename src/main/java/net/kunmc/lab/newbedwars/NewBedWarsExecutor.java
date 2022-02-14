@@ -31,7 +31,7 @@ public class NewBedWarsExecutor implements CommandExecutor, TabCompleter {
         }
         BaseCommand nbwCommand = build(args);
         if(null == nbwCommand) {
-            sender.sendMessage(new ComponentBuilder("error: コマンドが間違っています \nusage: /nbw " + Const.START + " | " + Const.STOP + " | " + Const.CONF + " | " + Const.INFO + " | " + Const.SET).color(ChatColor.RED).create());
+            sender.sendMessage(new ComponentBuilder("error: コマンドが間違っています \nusage: /nbw [" + Const.START + " | " + Const.STOP + " | " + Const.CONF + " | " + Const.INFO + " | " + Const.SET + " | " + Const.UNSET + "]").color(ChatColor.RED).create());
             return true;
         }
 
@@ -55,7 +55,7 @@ public class NewBedWarsExecutor implements CommandExecutor, TabCompleter {
             return new ArrayList<>();
         }
         if(1 == args.length) {
-            return Stream.of(Const.START, Const.STOP, Const.CONF, Const.INFO, Const.SET)
+            return Stream.of(Const.START, Const.STOP, Const.CONF, Const.INFO, Const.SET, Const.UNSET)
                     .filter(e->e.startsWith(args[0])).collect(Collectors.toList());
         }
         BaseCommand nbwCommand = build(args);
